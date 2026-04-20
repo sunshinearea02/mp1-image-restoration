@@ -86,7 +86,7 @@ b_med = median_filter(b, 5)
 g_med = median_filter(g, 5)
 r_med = median_filter(r, 5)
 
-denoise1 = cv2.merge([b_med, g_med, r_med])  # 🔥 tahap median
+denoise1 = cv2.merge([b_med, g_med, r_med])  
 
 
 kernel = gaussian_kernel(5, 1.2)
@@ -95,7 +95,7 @@ b_g = convolve(b_med, kernel)
 g_g = convolve(g_med, kernel)
 r_g = convolve(r_med, kernel)
 
-denoise2 = cv2.merge([b_g, g_g, r_g])  # 🔥 tahap gaussian
+denoise2 = cv2.merge([b_g, g_g, r_g])  
 
 # --- HISTOGRAM (Y only) ---
 ycrcb = cv2.cvtColor(denoise2.astype(np.uint8), cv2.COLOR_BGR2YCrCb)
@@ -104,7 +104,7 @@ Y, Cr, Cb = cv2.split(ycrcb)
 Y_eq = histogram_equalization(Y.astype(np.float64))
 
 contrast = cv2.merge([Y_eq.astype(np.uint8), Cr, Cb])
-contrast = cv2.cvtColor(contrast, cv2.COLOR_YCrCb2BGR)  # 🔥 tahap contrast
+contrast = cv2.cvtColor(contrast, cv2.COLOR_YCrCb2BGR)  
 
 # --- SHARPEN ---
 Y_sharp = unsharp_mask(Y_eq, sigma=1.0, k=1.2)
