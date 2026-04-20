@@ -32,7 +32,7 @@ Denoising → Smoothing → Contrast Enhancement → Sharpening
 
 Berikut hasil perbandingan sebelum dan sesudah restorasi:
 
-![Perbandingan](asset/hasiltugas1.png)
+![Perbandingan](asset/hasil%20tugas1.png)
 
 ### Observasi
 
