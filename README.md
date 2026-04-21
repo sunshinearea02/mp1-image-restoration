@@ -35,7 +35,7 @@ Berikut hasil perbandingan sebelum dan sesudah restorasi:
 ### Observasi
 
 - **Original**: Noise tinggi, detail terganggu  
-- **Median**: Noise impuls berkurang  
+- **Median**: Noise berupa titik-titik acak berkurang  
 - **Gaussian**: Noise lebih halus, sedikit blur  
 - **Histogram Equalization**: Kontras meningkat, noise ikut naik  
 - **Final Result**: Lebih tajam, namun noise masih terlihat  
@@ -47,7 +47,7 @@ Berikut hasil perbandingan sebelum dan sesudah restorasi:
 ### 1. Analisis Tiap Tahap
 
 - **Median Filter**  
-  Efektif mengurangi noise impuls, tetapi tidak sepenuhnya menghilangkan noise granular.
+  Mengurangi noise berupa bintik-bintik acak, tetapi belum sepenuhnya menghilangkan noise halus yang menyebar di seluruh gambar.
 
 - **Gaussian Filter**  
   Memberikan smoothing tambahan, namun menyebabkan sedikit kehilangan detail halus.
@@ -62,7 +62,7 @@ Berikut hasil perbandingan sebelum dan sesudah restorasi:
 
 ### 2. Evaluasi Pipeline
 
-- Pipeline berhasil meningkatkan visibilitas detail
+- Objek pada citra menjadi lebih jelas terlihat
 - Kontras citra meningkat secara signifikan
 - Namun noise masih cukup dominan pada hasil akhir
 
