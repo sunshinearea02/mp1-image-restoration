@@ -144,20 +144,22 @@ Program terdiri dari dua file berbeda:
 restorasiV1.py
 ```
 Hasil akan:
-Ditampilkan dalam bentuk visualisasi (matplotlib)
+Ditampilkan dalam bentuk visualisasi (matplotlib). 
 Disimpan ke:
+```bash
 output_ycbcr/hasil_restorasi_YCbCr.png
-
+```
 - Metode HEQ BGR
 ```bash
 restorasiV2.py
 ```
 
 Hasil akan:
-Ditampilkan dalam bentuk visualisasi (matplotlib)
+Ditampilkan dalam bentuk visualisasi (matplotlib). 
 Disimpan ke:
+```bash
 output_bgr/hasil_restorasi_BGR.png
-
+```
 4. Struktur Direktori 
 ```bash
 project/
