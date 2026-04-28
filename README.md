@@ -135,7 +135,7 @@ Pastikan Python sudah terpasang, lalu install library yang dibutuhkan:
 ```bash
 pip install numpy opencv-python matplotlib
 ```
-2. Siapkan File Input
+2. Siapkan File Input. 
 Letakkan file citra lena.png ke dalam folder input
 3. Jalankan Program
 Program terdiri dari dua file berbeda:
@@ -143,8 +143,7 @@ Program terdiri dari dua file berbeda:
 ```bash
 restorasiV1.py
 ```
-Hasil akan:
-Ditampilkan dalam bentuk visualisasi (matplotlib). 
+Hasil akan ditampilkan dalam bentuk visualisasi (matplotlib). 
 Disimpan ke:
 ```bash
 output_ycbcr/hasil_restorasi_YCbCr.png
@@ -154,8 +153,7 @@ output_ycbcr/hasil_restorasi_YCbCr.png
 restorasiV2.py
 ```
 
-Hasil akan:
-Ditampilkan dalam bentuk visualisasi (matplotlib). 
+Hasil akan ditampilkan dalam bentuk visualisasi (matplotlib). 
 Disimpan ke:
 ```bash
 output_bgr/hasil_restorasi_BGR.png
@@ -173,7 +171,7 @@ project/
 ├── output_bgr/
 │   └── hasil_restorasi_BGR.png
 │
-|── README.md
+├── README.md
 ├── restorasiV1.py
 └── restorasiV2.py
 ```
