@@ -8,9 +8,9 @@
 
 ##  Daftar Isi
 
-1. [Detail Masalah](#1--Detail-Masalah)  
+1. [Detail Masalah](#-1-Detail-Masalah)  
 
-2. [Pipeline Restorasi](#2--Pipeline-Restorasi)  
+2. [Pipeline Restorasi](#-2-Pipeline-Restorasi)  
 
 3. [Perbandingan Visual](#3-perbandingan-visual)  
 
