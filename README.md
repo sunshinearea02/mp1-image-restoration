@@ -141,7 +141,7 @@ Letakkan file citra lena.png ke dalam folder input
 Program terdiri dari dua file berbeda:
 - Metode HEQ YCbCr
 ```bash
-restorasiV1.py
+restorationV1.py
 ```
 Hasil akan ditampilkan dalam bentuk visualisasi (matplotlib). 
 Disimpan ke:
@@ -150,7 +150,7 @@ output_ycbcr/hasil_restorasi_YCbCr.png
 ```
 - Metode HEQ BGR
 ```bash
-restorasiV2.py
+restorationV2.py
 ```
 
 Hasil akan ditampilkan dalam bentuk visualisasi (matplotlib). 
@@ -172,8 +172,8 @@ project/
 │   └── hasil_restorasi_BGR.png
 │
 ├── README.md
-├── restorasiV1.py
-└── restorasiV2.py
+├── restorationV1.py
+└── restorationV2.py
 ```
 5. Output yang Dihasilkan
 Setiap program akan menghasilkan:
