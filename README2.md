@@ -55,19 +55,11 @@ Berikut perbandingan antara citra awal yang rusak dengan hasil restorasi menggun
 ## 3.2.1 Pipeline dengan HEQ Luminance-Only (YCbCr)
 ![](output/hasil_V1.png)
 
-# Analisis Gambar
+### Analisis Gambar
 
-- **Original**: Citra mengandung noise (Gaussian & salt-pepper), blur, dan kontras rendah sehingga detail kurang jelas.  
-- **Median Filter**: Noise salt-and-pepper berkurang tanpa merusak bentuk objek.  
-- **Gaussian Filter**: Noise halus berkurang, citra lebih bersih, namun sedikit blur.  
-- **Histogram Equalization (YCbCr)**: Kontras meningkat signifikan, detail lebih terlihat, warna tetap natural.  
-- **Sharpening**: Tepi dan tekstur menjadi lebih tajam, menghasilkan citra yang jelas dan seimbang.  
+- Pada tahap **citra awal (original)**, terlihat bahwa gambar mengalami beberapa degradasi sekaligus. Noise cukup dominan, baik berupa bintik halus (Gaussian noise) maupun titik ekstrem hitam-putih (salt-and-pepper). Selain itu, citra juga tampak blur sehingga detail seperti tepi objek dan tekstur menjadi kurang jelas. Ditambah lagi, kontras yang rendah membuat perbedaan antara area terang dan gelap tidak terlalu terlihat. - Setelah melalui **median filter**, perubahan paling terlihat adalah berkurangnya salt-and-pepper noise. Titik-titik hitam dan putih yang sebelumnya mengganggu mulai hilang. Kelebihan dari median filter terlihat di sini, yaitu mampu menghilangkan noise impuls tanpa merusak bentuk objek. Struktur wajah dan tepi utama tetap terjaga, meskipun masih terdapat noise halus. - Pada tahap **Gaussian filter**, noise halus yang sebelumnya masih tersisa mulai berkurang. Citra terlihat lebih halus dan bersih dibandingkan sebelumnya. Namun, efek sampingnya adalah gambar menjadi sedikit lebih blur karena Gaussian filter meratakan nilai piksel di sekitarnya. Jadi pada tahap ini, noise berkurang cukup signifikan, tetapi ketajaman detail sedikit menurun. - Ketika masuk ke tahap **histogram equalization pada channel Y (YCbCr)**, perubahan kontras menjadi sangat jelas. Distribusi intensitas yang sebelumnya sempit menjadi lebih lebar, sehingga perbedaan antara area terang dan gelap lebih terlihat. Karena hanya channel luminance yang diubah, warna pada citra tetap terlihat natural dan tidak mengalami distorsi. Ini membuat gambar terlihat lebih jelas tanpa mengubah karakter warna aslinya. - Pada tahap akhir yaitu **sharpening (unsharp masking)**, detail yang sebelumnya hilang akibat blur mulai kembali. Tepi objek menjadi lebih tegas dan tekstur lebih terlihat. Proses ini bekerja dengan menambahkan kembali komponen detail ke citra. Hasil akhirnya adalah citra yang lebih tajam, dengan kontras yang sudah baik dan warna yang tetap natural. Secara keseluruhan, pipeline YCbCr menghasilkan restorasi yang seimbang antara pengurangan noise, peningkatan kontras, dan ketajaman.
 
-Pipeline ini menghasilkan citra yang bersih, tajam, dan tetap natural.
-
----
-
-# Analisis Histogram
+### Analisis Histogram
 
 - **Original**: Histogram sempit dan terpusat di tengah → kontras rendah.  
 - **Median Filter**: Spike ekstrem berkurang → noise impuls berhasil dihilangkan.  
@@ -82,19 +74,11 @@ Distribusi intensitas menjadi lebih merata dan stabil.
 ## 3.2.2 Pipeline dengan HEQ Per-Channel (BGR)
 ![](output/hasil_V2.png)
 
-# Analisis Gambar
+### Analisis Gambar
 
-- **Original**: Citra noisy, blur, dan kontras rendah sehingga detail sulit dikenali.  
-- **Median Filter**: Noise impuls berkurang, struktur tetap terjaga.  
-- **Gaussian Filter**: Noise halus berkurang, citra lebih smooth namun sedikit blur.  
-- **Histogram Equalization (BGR)**: Kontras meningkat lebih kuat, detail lebih menonjol, tetapi warna mulai berubah.  
-- **Sharpening**: Citra sangat tajam dan kontras tinggi, namun terlihat kurang natural.  
+- Pada tahap **citra awal (original)**, kondisi yang terlihat sama seperti sebelumnya, yaitu citra memiliki noise tinggi, blur, dan kontras rendah. Detail objek sulit dikenali karena kombinasi dari noise dan rendahnya kontras. - Setelah **median filter**, salt-and-pepper noise berkurang secara signifikan. Titik-titik ekstrem mulai hilang dan citra terlihat lebih bersih. Seperti pada pipeline sebelumnya, median filter tetap menjaga bentuk objek sehingga tidak terjadi distorsi pada struktur utama gambar. - Pada tahap **Gaussian filter**, noise halus semakin berkurang dan citra menjadi lebih smooth. Namun, seperti sebelumnya, efek blur sedikit meningkat karena proses smoothing. Pada titik ini, citra sudah cukup bersih dari noise, tetapi masih kurang tajam. - Perubahan besar mulai terlihat pada tahap **histogram equalization per-channel (BGR)**. Karena equalization dilakukan pada masing-masing channel warna secara terpisah, kontras meningkat secara lebih agresif dibandingkan metode YCbCr. Detail menjadi lebih menonjol, namun efek sampingnya adalah perubahan warna. Hubungan antar channel tidak lagi seimbang, sehingga warna bisa terlihat tidak natural atau terlalu mencolok (over-saturated). - Pada tahap **sharpening (unsharp masking)**, ketajaman citra semakin meningkat. Tepi objek menjadi sangat jelas dan detail terlihat lebih “keluar”. Namun, karena sebelumnya kontras sudah tinggi akibat HEQ BGR, proses sharpening dapat membuat citra menjadi terlalu tajam. Selain itu, noise yang masih tersisa juga bisa ikut diperkuat. Akibatnya, hasil akhir memang terlihat sangat kontras dan tajam, tetapi kurang natural dibandingkan metode YCbCr.
 
-Pipeline ini menghasilkan citra yang tajam dan kontras tinggi, tetapi warna kurang stabil.
-
----
-
-# Analisis Histogram
+### Analisis Histogram
 
 - **Original**: Histogram sempit → intensitas terkonsentrasi di mid-range.  
 - **Median Filter**: Spike ekstrem berkurang → noise salt-pepper hilang.  
