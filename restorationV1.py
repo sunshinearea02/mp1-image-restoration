@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-img = cv2.imread('LATIHAN/lena.png')
+img = cv2.imread('input/lena.png')
 
 if img is None:
     raise ValueError("Gambar tidak ditemukan!")
@@ -183,4 +183,4 @@ plt.tight_layout()
 plt.show()
 
 
-cv2.imwrite('TUGAS/hasil_restorasi_YCbCr.png', result.astype(np.uint8))
+cv2.imwrite('output_ycbcr/hasil_restorasi_YCbCr.png', result.astype(np.uint8))
