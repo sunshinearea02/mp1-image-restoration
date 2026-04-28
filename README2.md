@@ -116,12 +116,40 @@ Dari kedua metode HEQ tersebut, dapat disimpulkan bahwa:
 
 ---
 ## 5. Cara Menjalankan Program
-### 1. Install Dependency
+1. Install Dependency
 Pastikan Python sudah terpasang, lalu install library yang dibutuhkan:
 ```bash
 pip install numpy opencv-python matplotlib
-
-### 2. Siapkan File Input
+```
+2. Siapkan File Input
 Letakkan file citra lena.png ke dalam folder input
-### 3. 
+3. Jalankan Program
+Program terdiri dari dua file berbeda:
+- Metode HEQ YCbCr
+```bash
+restorasiV1.py
+```
+Hasil akan:
+Ditampilkan dalam bentuk visualisasi (matplotlib)
+Disimpan ke:
+output_ycbcr/hasil_restorasi_YCbCr.png
 
+- Metode HEQ BGR
+```bash
+restorasiV2.py
+```
+
+Hasil akan:
+Ditampilkan dalam bentuk visualisasi (matplotlib)
+Disimpan ke:
+output_bgr/hasil_restorasi_BGR.png
+4. Output yang Dihasilkan
+Setiap program akan menghasilkan:
+- Citra hasil restorasi
+- Visualisasi tahapan:
+  - Original
+  - Median Filter
+  - Gaussian Filter
+  - Histogram Equalization
+  - Final Result
+- Histogram tiap tahap
