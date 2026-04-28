@@ -49,11 +49,11 @@ Input → Median → Gaussian → Histogram Equalization → Sharpening → Outp
 Berikut perbandingan antara citra awal yang rusak dengan hasil restorasi menggunakan dua metode histogram equalization.
 | Citra Noisy (Input) | Restored (HEQ BGR) | Restored (HEQ YCbCr) |
 |--------------------|-------------------|----------------------|
-| ![](input/lena.png) | ![](output/hasil_restorasi_BGR.png) | ![](output/hasil_restorasi_YCbCr.png) |
+| ![](input/lena.png) | ![](output_bgr/hasil_restorasi_BGR.png) | ![](output_ycbcr/hasil_restorasi_YCbCr.png) |
 
 ## 3.2 Perbandingan Tiap Tahap Pipeline dengan 2 Metode
 ## 3.2.1 Pipeline dengan HEQ Luminance-Only (YCbCr)
-![](output/hasil_V1.png)
+![](output_bgr/hasil_V1.png)
 
 ### Analisis Gambar
 
@@ -76,7 +76,7 @@ Distribusi intensitas menjadi lebih merata dan stabil.
 ---
 
 ## 3.2.2 Pipeline dengan HEQ Per-Channel (BGR)
-![](output/hasil_V2.png)
+![](output_ycbcr/hasil_V2.png)
 
 ### Analisis Gambar
 
@@ -144,6 +144,7 @@ Ditampilkan dalam bentuk visualisasi (matplotlib)
 Disimpan ke:
 output_bgr/hasil_restorasi_BGR.png
 4. Struktur Direktori 
+```bash
 project/
 │
 ├── input/
@@ -158,6 +159,7 @@ project/
 ├── restorasiV1.py
 ├── restorasiV2.py
 └── README.md
+```
 5. Output yang Dihasilkan
 Setiap program akan menghasilkan:
 - Citra hasil restorasi
