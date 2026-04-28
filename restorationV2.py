@@ -29,6 +29,7 @@ def compute_histogram(img):
         hist[int(pixel)] += 1
     return hist
 
+
 def plot_histogram(img, title):
     hist = compute_histogram(img)
     plt.plot(hist)
@@ -76,8 +77,6 @@ def convolve(img, kernel):
     return np.clip(output, 0, 255)
 
 
-
-
 def histogram_equalization(img):
     L = 256
     hist = np.zeros(L)
@@ -106,47 +105,46 @@ def unsharp_mask(img, sigma=1.0, k=1.2):
     return np.clip(sharp, 0, 255)
 
 
-
-
-b, g, r = cv2.split(img)
+# manual split 
+b = img[:,:,0]
+g = img[:,:,1]
+r = img[:,:,2]
 
 # 1. Median
 b_med = median_filter(b, 5)
 g_med = median_filter(g, 5)
 r_med = median_filter(r, 5)
-denoise1 = cv2.merge([b_med, g_med, r_med])
+
+denoise1 = np.stack([b_med, g_med, r_med], axis=2)
 
 # 2. Gaussian
 kernel = gaussian_kernel(5, 1.2)
 b_g = convolve(b_med, kernel)
 g_g = convolve(g_med, kernel)
 r_g = convolve(r_med, kernel)
-denoise2 = cv2.merge([b_g, g_g, r_g])
 
-# 3. HISTOGRAM EQUALIZATION PER CHANNEL 
+denoise2 = np.stack([b_g, g_g, r_g], axis=2)
+
+# 3. YCrCb manual
+ycrcb = bgr_to_ycrcb(denoise2)
+Y  = ycrcb[:,:,0]
+Cr = ycrcb[:,:,1]
+Cb = ycrcb[:,:,2]
+
+# 4. Histogram Equalization per channel
 b_eq = histogram_equalization(b_g)
 g_eq = histogram_equalization(g_g)
 r_eq = histogram_equalization(r_g)
 
-contrast = cv2.merge([
-    b_eq.astype(np.uint8),
-    g_eq.astype(np.uint8),
-    r_eq.astype(np.uint8)
-])
+contrast = np.stack([b_eq, g_eq, r_eq], axis=2)
 
-# 4. SHARPEN PER CHANNEL
+# 5. Sharpen per channel
 b_sharp = unsharp_mask(b_eq)
 g_sharp = unsharp_mask(g_eq)
 r_sharp = unsharp_mask(r_eq)
 
-result = cv2.merge([
-    b_sharp.astype(np.uint8),
-    g_sharp.astype(np.uint8),
-    r_sharp.astype(np.uint8)
-])
+result = np.stack([b_sharp, g_sharp, r_sharp], axis=2)
 
-
-# histogram
 
 y_orig = bgr_to_ycrcb(img)[:,:,0]
 y_med = bgr_to_ycrcb(denoise1)[:,:,0]
@@ -155,11 +153,9 @@ y_eq = bgr_to_ycrcb(contrast.astype(np.float64))[:,:,0]
 y_final = bgr_to_ycrcb(result.astype(np.float64))[:,:,0]
 
 
-# visualisasi
-
+# Visualisasi
 plt.figure(figsize=(18,10))
 
-# IMAGE (BGR → RGB manual)
 plt.subplot(3,5,1)
 plt.title("Original")
 plt.imshow(img[:,:,::-1].astype(np.uint8))
@@ -177,12 +173,12 @@ plt.axis('off')
 
 plt.subplot(3,5,4)
 plt.title("HEQ BGR")
-plt.imshow(contrast[:,:,::-1])
+plt.imshow(contrast[:,:,::-1].astype(np.uint8))
 plt.axis('off')
 
 plt.subplot(3,5,5)
 plt.title("Final")
-plt.imshow(result[:,:,::-1])
+plt.imshow(result[:,:,::-1].astype(np.uint8))
 plt.axis('off')
 
 # HISTOGRAM
@@ -196,7 +192,7 @@ plt.subplot(3,5,8)
 plot_histogram(y_gauss, "Hist Gaussian")
 
 plt.subplot(3,5,9)
-plot_histogram(y_eq, "Hist HEQ BGR")
+plot_histogram(y_eq, "Hist Equalized")
 
 plt.subplot(3,5,10)
 plot_histogram(y_final, "Hist Final")
@@ -205,4 +201,4 @@ plt.tight_layout()
 plt.show()
 
 
-cv2.imwrite('output_bgr/hasil_restorasi_BGR.png', result)
+cv2.imwrite('output_bgr/hasil_restorasi_BGR.png', result.astype(np.uint8))
