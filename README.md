@@ -8,9 +8,9 @@
 
 ##  Daftar Isi
 
-1. [Detail Masalah](#--1-detail-masalah)  
+1. [Detail Masalah](#1-detail-masalah)  
 
-2. [Pipeline Restorasi](#--2-pipeline-restorasi)  
+2. [Pipeline Restorasi](#2-pipeline-restorasi)  
 
 3. [Perbandingan Visual](#3-perbandingan-visual)  
 
@@ -19,7 +19,7 @@
 5. [Cara Menjalankan Program](#5-cara-menjalankan-program)  
      
 ---
-##  1. Detail Masalah
+## 1. Detail Masalah
 
 | Jenis Degradasi | Penjelasan | Dampak pada Citra |
 |----------------|----------|------------------|
@@ -41,7 +41,7 @@ Berdasarkan permasalahan di atas, tujuan utama restorasi citra adalah:
 
 ---
 
-##  2. Pipeline Restorasi
+## 2. Pipeline Restorasi
 
 | Tahap | Teknik | Apa yang Dilakukan | Alasan Dipilih | Dampak |
 |------|--------|------------------|---------------|--------|
