@@ -47,12 +47,14 @@ def compute_histogram(img):
         hist[int(pixel)] += 1
     return hist
 
+
 def plot_histogram(img, title):
     hist = compute_histogram(img)
     plt.plot(hist)
     plt.title(title)
     plt.xlabel("Intensity")
     plt.ylabel("Frequency")
+
 
 
 
@@ -64,10 +66,9 @@ def median_filter(img, k=3):
     for i in range(img.shape[0]):
         for j in range(img.shape[1]):
             window = padded[i:i+k, j:j+k].flatten()
-            sorted_vals = np.sort(window)
-            output[i, j] = sorted_vals[len(sorted_vals)//2]
+            output[i, j] = np.sort(window)[len(window)//2]
 
-    return output
+    return np.clip(output, 0, 255)
 
 
 def gaussian_kernel(size, sigma):
@@ -106,7 +107,6 @@ def histogram_equalization(img):
 
     pdf = hist / img.size
     cdf = np.cumsum(pdf)
-
     s = (L - 1) * cdf
 
     output = np.zeros_like(img)
@@ -128,40 +128,44 @@ def unsharp_mask(img, sigma=1.0, k=1.2):
 
 
 
-b, g, r = cv2.split(img)
+# manual split 
+b = img[:,:,0]
+g = img[:,:,1]
+r = img[:,:,2]
 
-# Median
+# 1. Median
 b_med = median_filter(b, 5)
 g_med = median_filter(g, 5)
 r_med = median_filter(r, 5)
-denoise1 = cv2.merge([b_med, g_med, r_med])
 
-# Gaussian
+denoise1 = np.stack([b_med, g_med, r_med], axis=2)
+
+# 2. Gaussian
 kernel = gaussian_kernel(5, 1.2)
 b_g = convolve(b_med, kernel)
 g_g = convolve(g_med, kernel)
 r_g = convolve(r_med, kernel)
-denoise2 = cv2.merge([b_g, g_g, r_g])
 
-# YCrCb manual
+denoise2 = np.stack([b_g, g_g, r_g], axis=2)
+
+# 3. YCrCb manual
 ycrcb = bgr_to_ycrcb(denoise2)
 Y  = ycrcb[:,:,0]
 Cr = ycrcb[:,:,1]
 Cb = ycrcb[:,:,2]
 
-# Histogram Equalization
+# 4. Histogram Equalization
 Y_eq = histogram_equalization(Y)
 
 contrast = np.stack([Y_eq, Cr, Cb], axis=2)
 contrast = ycrcb_to_bgr(contrast).astype(np.uint8)
 
-# Sharpen
+# 5. Sharpen
 Y_sharp = unsharp_mask(Y_eq, sigma=1.0, k=1.2)
 
 result = np.stack([Y_sharp, Cr, Cb], axis=2)
 result = ycrcb_to_bgr(result).astype(np.uint8)
 
-# histogram
 
 y_orig = bgr_to_ycrcb(img)[:,:,0]
 y_med = bgr_to_ycrcb(denoise1)[:,:,0]
@@ -169,12 +173,9 @@ y_gauss = bgr_to_ycrcb(denoise2)[:,:,0]
 y_eq = Y_eq
 y_final = bgr_to_ycrcb(result.astype(np.float64))[:,:,0]
 
-
-# Visualisasi
-
+#Visualisasi
 plt.figure(figsize=(18,10))
 
-# IMAGE
 plt.subplot(3,5,1)
 plt.title("Original")
 plt.imshow(img[:,:,::-1].astype(np.uint8))
