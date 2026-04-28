@@ -130,7 +130,7 @@ Dari kedua metode HEQ tersebut, dapat disimpulkan bahwa:
 
 ---
 ## 5. Cara Menjalankan Program
-1. Install Dependency
+1. Install Dependency.
 Pastikan Python sudah terpasang, lalu install library yang dibutuhkan:
 ```bash
 pip install numpy opencv-python matplotlib
