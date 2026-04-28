@@ -137,8 +137,8 @@ pip install numpy opencv-python matplotlib
 ```
 2. Siapkan File Input. 
 Letakkan file citra lena.png ke dalam folder input
-3. Jalankan Program
-Program terdiri dari dua file berbeda:
+3. Jalankan Program,
+program terdiri dari dua file berbeda:
 - Metode HEQ YCbCr
 ```bash
 restorationV1.py
