@@ -51,8 +51,8 @@ Berikut perbandingan antara citra awal yang rusak dengan hasil restorasi menggun
 |--------------------|-------------------|----------------------|
 | ![](input/lena.png) | ![](output/hasil_restorasi_BGR.png) | ![](output/hasil_restorasi_YCbCr.png) |
 
-## 3.2 Perbandingan Tahap Pipeline
-## 3.2.1 Pipeline dengan HEQ YCbCr
+## 3.2 Perbandingan Tiap Tahap Pipeline dengan 2 Metode
+## 3.2.1 Pipeline dengan HEQ Luminance-Only (YCbCr)
 ![](output/hasil_V1.png)
 
 # Analisis Gambar
@@ -79,7 +79,7 @@ Distribusi intensitas menjadi lebih merata dan stabil.
 
 ---
 
-## 3.2.2 Pipeline dengan HEQ BGR
+## 3.2.2 Pipeline dengan HEQ Per-Channel (BGR)
 ![](output/hasil_V2.png)
 
 # Analisis Gambar
@@ -107,8 +107,8 @@ Distribusi intensitas menjadi lebih ekstrem dibanding YCbCr.
 ---
 
 ##  Kesimpulan Perbandingan
-Dari kedua pipeline tersebut, dapat disimpulkan bahwa:
-- Pipeline **YCbCr** menghasilkan citra yang lebih natural dan seimbang, karena hanya memperbaiki luminance tanpa mengganggu warna. Distribusi histogram lebih stabil, hasil natural  
-- Pipeline **BGR** menghasilkan citra yang lebih kontras dan tajam, tetapi berisiko menimbulkan distorsi warna dan peningkatan yang berlebihan pada kontras dan detail. Distribusi lebih agresif, kontras tinggi tetapi kurang natural  
+Dari kedua metode HEQ tersebut, dapat disimpulkan bahwa:
+- HEQ **Luminance-Only (YCbCr)** menghasilkan citra yang lebih natural dan seimbang, karena hanya memperbaiki luminance tanpa mengganggu warna. Distribusi histogram lebih stabil, hasil natural  
+- HEQ **Per-Channel (BGR)** menghasilkan citra yang lebih kontras dan tajam, tetapi berisiko menimbulkan distorsi warna dan peningkatan yang berlebihan pada kontras dan detail. Distribusi lebih agresif, kontras tinggi tetapi kurang natural  
 
 
