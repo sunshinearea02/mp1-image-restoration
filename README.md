@@ -175,8 +175,7 @@ mp1-image-restoration/
 ├── restorationV1.py
 └── restorationV2.py
 ```
-5. Output yang Dihasilkan
-Setiap program akan menghasilkan:
+5. Output yang dihasilkan yaitu
 - Citra hasil restorasi
 - Visualisasi tahapan:
   - Original
