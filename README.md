@@ -20,6 +20,7 @@
      
 ---
 ## 1. Detail Masalah
+Citra yang digunakan sebagai input merupakan citra (Lena.png) yang telah mengalami empat macam degradasi/kerusakan.
 
 | Jenis Degradasi | Penjelasan | Dampak pada Citra |
 |----------------|----------|------------------|
