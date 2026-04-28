@@ -103,4 +103,25 @@ Dari kedua metode HEQ tersebut, dapat disimpulkan bahwa:
 - HEQ **Luminance-Only (YCbCr)** menghasilkan citra yang lebih natural dan seimbang, karena hanya memperbaiki luminance tanpa mengganggu warna. Distribusi histogram lebih stabil, hasil natural  
 - HEQ **Per-Channel (BGR)** menghasilkan citra yang lebih kontras dan tajam, tetapi berisiko menimbulkan distorsi warna dan peningkatan yang berlebihan pada kontras dan detail. Distribusi lebih agresif, kontras tinggi tetapi kurang natural  
 
+---
+## 4. Analisis Hasil
+### 4.1 Yang berhasil : 
+- Pipeline restorasi yang digunakan berhasil meningkatkan kualitas citra secara signifikan.
+- Proses denoising menggunakan median dan Gaussian filter mampu mengurangi noise salt-and-pepper maupun Gaussian tanpa merusak struktur utama objek, sehingga citra menjadi lebih bersih.
+- Selanjutnya, histogram equalization berhasil meningkatkan kontras dengan memperlebar distribusi intensitas, di mana metode YCbCr menghasilkan kontras yang lebih seimbang dan natural, sedangkan metode BGR memberikan kontras yang lebih kuat.
+- Tahap sharpening dengan unsharp masking juga efektif dalam mengembalikan detail dan mempertegas tepi objek, sehingga citra terlihat lebih tajam. 
+### 4.2 Yang bisa di tingkatkan : 
+- Penggunaan histogram equalization global terkadang menghasilkan kontras yang terlalu kuat, terutama pada metode BGR, sehingga dapat menyebabkan perubahan warna yang kurang natural. Untuk mengatasi hal ini, dapat digunakan metode CLAHE (Contrast Limited Adaptive Histogram Equalization) yang mampu meningkatkan kontras secara lebih adaptif pada setiap area citra.
+- Selain itu, Gaussian filter yang digunakan untuk mengurangi noise juga menyebabkan sedikit blur, sehingga ketajaman citra berkurang. Agar hasil lebih jernih, dapat dilakukan penyesuaian ukuran kernel Gaussian, penggunaan teknik denoising yang lebih selektif, serta pengaturan parameter sharpening agar tidak terlalu agresif.
+
+---
+## 5. Cara Menjalankan Program
+### 1. Install Dependency
+Pastikan Python sudah terpasang, lalu install library yang dibutuhkan:
+```bash
+pip install numpy opencv-python matplotlib
+
+### 2. Siapkan File Input
+Letakkan file citra lena.png ke dalam folder input
+### 3. 
 
