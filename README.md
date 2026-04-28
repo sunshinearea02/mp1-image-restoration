@@ -160,7 +160,7 @@ output_bgr/hasil_restorasi_BGR.png
 ```
 4. Struktur Direktori 
 ```bash
-project/
+mp1-image-restoration/
 │
 ├── input/
 │   └── lena.png
