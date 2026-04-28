@@ -11,6 +11,18 @@ if img is None:
 img = img.astype(np.float64)
 
 
+def bgr_to_ycrcb(img):
+    B = img[:,:,0]
+    G = img[:,:,1]
+    R = img[:,:,2]
+
+    Y  = 0.299 * R + 0.587 * G + 0.114 * B
+    Cr = (R - Y) * 0.713 + 128
+    Cb = (B - Y) * 0.564 + 128
+
+    return np.stack([Y, Cr, Cb], axis=2)
+
+
 def compute_histogram(img):
     hist = np.zeros(256)
     for pixel in img.flatten():
@@ -64,6 +76,8 @@ def convolve(img, kernel):
     return np.clip(output, 0, 255)
 
 
+
+
 def histogram_equalization(img):
     L = 256
     hist = np.zeros(L)
@@ -90,6 +104,8 @@ def unsharp_mask(img, sigma=1.0, k=1.2):
     mask = img - blurred
     sharp = img + k * mask
     return np.clip(sharp, 0, 255)
+
+
 
 
 b, g, r = cv2.split(img)
@@ -130,41 +146,43 @@ result = cv2.merge([
 ])
 
 
+# histogram
 
-y_orig = cv2.cvtColor(img.astype(np.uint8), cv2.COLOR_BGR2YCrCb)[:,:,0]
-y_med = cv2.cvtColor(denoise1.astype(np.uint8), cv2.COLOR_BGR2YCrCb)[:,:,0]
-y_gauss = cv2.cvtColor(denoise2.astype(np.uint8), cv2.COLOR_BGR2YCrCb)[:,:,0]
-y_eq = cv2.cvtColor(contrast, cv2.COLOR_BGR2YCrCb)[:,:,0]
-y_final = cv2.cvtColor(result, cv2.COLOR_BGR2YCrCb)[:,:,0]
+y_orig = bgr_to_ycrcb(img)[:,:,0]
+y_med = bgr_to_ycrcb(denoise1)[:,:,0]
+y_gauss = bgr_to_ycrcb(denoise2)[:,:,0]
+y_eq = bgr_to_ycrcb(contrast.astype(np.float64))[:,:,0]
+y_final = bgr_to_ycrcb(result.astype(np.float64))[:,:,0]
 
 
+# visualisasi
 
 plt.figure(figsize=(18,10))
 
-# IMAGE
+# IMAGE (BGR → RGB manual)
 plt.subplot(3,5,1)
 plt.title("Original")
-plt.imshow(cv2.cvtColor(img.astype(np.uint8), cv2.COLOR_BGR2RGB))
+plt.imshow(img[:,:,::-1].astype(np.uint8))
 plt.axis('off')
 
 plt.subplot(3,5,2)
 plt.title("Median")
-plt.imshow(cv2.cvtColor(denoise1.astype(np.uint8), cv2.COLOR_BGR2RGB))
+plt.imshow(denoise1[:,:,::-1].astype(np.uint8))
 plt.axis('off')
 
 plt.subplot(3,5,3)
 plt.title("Gaussian")
-plt.imshow(cv2.cvtColor(denoise2.astype(np.uint8), cv2.COLOR_BGR2RGB))
+plt.imshow(denoise2[:,:,::-1].astype(np.uint8))
 plt.axis('off')
 
 plt.subplot(3,5,4)
 plt.title("HEQ BGR")
-plt.imshow(cv2.cvtColor(contrast, cv2.COLOR_BGR2RGB))
+plt.imshow(contrast[:,:,::-1])
 plt.axis('off')
 
 plt.subplot(3,5,5)
 plt.title("Final")
-plt.imshow(cv2.cvtColor(result, cv2.COLOR_BGR2RGB))
+plt.imshow(result[:,:,::-1])
 plt.axis('off')
 
 # HISTOGRAM
