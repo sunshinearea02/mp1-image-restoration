@@ -8,25 +8,15 @@
 
 ##  Daftar Isi
 
-1. [Detail Masalah](#1--detail-masalah)  
-   - [Tujuan Restorasi](#--tujuan-restorasi)  
+1. [Detail Masalah](#1--Detail-Masalah)  
 
-2. [Pipeline Restorasi](#2--pipeline-restorasi)  
-   - [Urutan Pipeline](#-urutan-pipeline)  
+2. [Pipeline Restorasi](#2--Pipeline-Restorasi)  
 
 3. [Perbandingan Visual](#3-perbandingan-visual)  
-   - [Sebelum dan Sesudah Restorasi](#31-sebelum-dan-sesudah-restorasi)  
-   - [Perbandingan Tiap Tahap Pipeline](#32-perbandingan-tiap-tahap-pipeline-dengan-2-metode)  
-     - [Pipeline HEQ YCbCr](#321-pipeline-dengan-heq-luminance-only-ycbcr)  
-     - [Pipeline HEQ BGR](#322-pipeline-dengan-heq-per-channel-bgr)  
 
-4. [Analisis Hasil](#4-analisis-hasil)  
-   - [Yang Berhasil](#41-yang-berhasil-)  
-   - [Yang Bisa Ditingkatkan](#42-yang-bisa-di-tingkatkan-)  
+4. [Analisis Hasil](#4-analisis-hasil)   
 
 5. [Cara Menjalankan Program](#5-cara-menjalankan-program)  
-   - [Struktur Direktori](#4-struktur-direktori)  
-   - [Output yang Dihasilkan](#5-output-yang-dihasilkan)
      
 ---
 ##  1. Detail Masalah
