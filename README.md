@@ -157,9 +157,9 @@ project/
 ├── output_bgr/
 │   └── hasil_restorasi_BGR.png
 │
+|── README.md
 ├── restorasiV1.py
-├── restorasiV2.py
-└── README.md
+└── restorasiV2.py
 ```
 5. Output yang Dihasilkan
 Setiap program akan menghasilkan:
