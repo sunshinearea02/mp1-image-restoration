@@ -58,7 +58,7 @@ Bagian ini menunjukkan perubahan citra pada setiap tahap pipeline untuk masing-m
 ---
 
 ## 3.2.1 Pipeline dengan HEQ YCbCr
-![](output/hasil_restorasi_BGR.png)
+![](output/hasil_V1.png)
 
 # Analisis
 
@@ -75,7 +75,7 @@ Pada tahap akhir yaitu **sharpening (unsharp masking)**, detail yang sebelumnya 
 ---
 
 ## 3.2.2 Pipeline dengan HEQ BGR
-![](output/hasil_restorasi_BGR.png)
+![](output/hasil_V2.png)
 
 # Analisis
 
