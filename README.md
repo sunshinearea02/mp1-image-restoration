@@ -53,7 +53,7 @@ Berikut perbandingan antara citra awal yang rusak dengan hasil restorasi menggun
 
 ## 3.2 Perbandingan Tiap Tahap Pipeline dengan 2 Metode
 ## 3.2.1 Pipeline dengan HEQ Luminance-Only (YCbCr)
-![](output_bgr/hasil_V1.png)
+![](output_ycbcr/hasil_V1.png)
 
 ### Analisis Gambar
 
@@ -76,7 +76,7 @@ Distribusi intensitas menjadi lebih merata dan stabil.
 ---
 
 ## 3.2.2 Pipeline dengan HEQ Per-Channel (BGR)
-![](output_ycbcr/hasil_V2.png)
+![](output_bgr/hasil_V2.png)
 
 ### Analisis Gambar
 
@@ -143,6 +143,7 @@ Hasil akan:
 Ditampilkan dalam bentuk visualisasi (matplotlib)
 Disimpan ke:
 output_bgr/hasil_restorasi_BGR.png
+
 4. Struktur Direktori 
 ```bash
 project/
