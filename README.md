@@ -143,7 +143,22 @@ Hasil akan:
 Ditampilkan dalam bentuk visualisasi (matplotlib)
 Disimpan ke:
 output_bgr/hasil_restorasi_BGR.png
-4. Output yang Dihasilkan
+4. Struktur Direktori 
+project/
+│
+├── input/
+│   └── lena.png
+│
+├── output_ycbcr/
+│   └── hasil_restorasi_YCbCr.png
+│
+├── output_bgr/
+│   └── hasil_restorasi_BGR.png
+│
+├── restorasiV1.py
+├── restorasiV2.py
+└── README.md
+5. Output yang Dihasilkan
 Setiap program akan menghasilkan:
 - Citra hasil restorasi
 - Visualisasi tahapan:
