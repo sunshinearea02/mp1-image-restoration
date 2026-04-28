@@ -54,7 +54,7 @@ Berikut perbandingan antara citra awal yang rusak dengan hasil restorasi menggun
 ## 3.2 Perbandingan Tahap Pipeline
 
 ## 3.2.1 Pipeline dengan HEQ YCbCr
-![](output/hasil V1.png)
+![](output/hasil_V1.png)
 
 # Analisis
 
