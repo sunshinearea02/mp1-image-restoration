@@ -11,6 +11,36 @@ if img is None:
 img = img.astype(np.float64)
 
 
+
+def bgr_to_ycrcb(img):
+    B = img[:,:,0]
+    G = img[:,:,1]
+    R = img[:,:,2]
+
+    Y  = 0.299 * R + 0.587 * G + 0.114 * B
+    Cr = (R - Y) * 0.713 + 128
+    Cb = (B - Y) * 0.564 + 128
+
+    return np.stack([Y, Cr, Cb], axis=2)
+
+
+def ycrcb_to_bgr(img):
+    Y  = img[:,:,0]
+    Cr = img[:,:,1]
+    Cb = img[:,:,2]
+
+    R = Y + 1.403 * (Cr - 128)
+    G = Y - 0.344 * (Cb - 128) - 0.714 * (Cr - 128)
+    B = Y + 1.773 * (Cb - 128)
+
+    return np.stack([
+        np.clip(B, 0, 255),
+        np.clip(G, 0, 255),
+        np.clip(R, 0, 255)
+    ], axis=2)
+
+
+
 def compute_histogram(img):
     hist = np.zeros(256)
     for pixel in img.flatten():
@@ -23,6 +53,7 @@ def plot_histogram(img, title):
     plt.title(title)
     plt.xlabel("Intensity")
     plt.ylabel("Frequency")
+
 
 
 def median_filter(img, k=3):
@@ -65,6 +96,7 @@ def convolve(img, kernel):
     return np.clip(output, 0, 255)
 
 
+
 def histogram_equalization(img):
     L = 256
     hist = np.zeros(L)
@@ -94,6 +126,8 @@ def unsharp_mask(img, sigma=1.0, k=1.2):
     return np.clip(sharp, 0, 255)
 
 
+
+
 b, g, r = cv2.split(img)
 
 # Median
@@ -109,58 +143,61 @@ g_g = convolve(g_med, kernel)
 r_g = convolve(r_med, kernel)
 denoise2 = cv2.merge([b_g, g_g, r_g])
 
-# Convert ke YCrCb
-ycrcb = cv2.cvtColor(denoise2.astype(np.uint8), cv2.COLOR_BGR2YCrCb)
-Y, Cr, Cb = cv2.split(ycrcb)
+# YCrCb manual
+ycrcb = bgr_to_ycrcb(denoise2)
+Y  = ycrcb[:,:,0]
+Cr = ycrcb[:,:,1]
+Cb = ycrcb[:,:,2]
 
 # Histogram Equalization
-Y_eq = histogram_equalization(Y.astype(np.float64))
-contrast = cv2.merge([Y_eq.astype(np.uint8), Cr, Cb])
-contrast = cv2.cvtColor(contrast, cv2.COLOR_YCrCb2BGR)
+Y_eq = histogram_equalization(Y)
+
+contrast = np.stack([Y_eq, Cr, Cb], axis=2)
+contrast = ycrcb_to_bgr(contrast).astype(np.uint8)
 
 # Sharpen
 Y_sharp = unsharp_mask(Y_eq, sigma=1.0, k=1.2)
-result = cv2.merge([
-    Y_sharp.astype(np.uint8),
-    Cr,
-    Cb
-])
-result = cv2.cvtColor(result, cv2.COLOR_YCrCb2BGR)
 
+result = np.stack([Y_sharp, Cr, Cb], axis=2)
+result = ycrcb_to_bgr(result).astype(np.uint8)
 
-y_orig = cv2.cvtColor(img.astype(np.uint8), cv2.COLOR_BGR2YCrCb)[:,:,0]
-y_med = cv2.cvtColor(denoise1.astype(np.uint8), cv2.COLOR_BGR2YCrCb)[:,:,0]
-y_gauss = cv2.cvtColor(denoise2.astype(np.uint8), cv2.COLOR_BGR2YCrCb)[:,:,0]
+# histogram
+
+y_orig = bgr_to_ycrcb(img)[:,:,0]
+y_med = bgr_to_ycrcb(denoise1)[:,:,0]
+y_gauss = bgr_to_ycrcb(denoise2)[:,:,0]
 y_eq = Y_eq
-y_final = cv2.cvtColor(result.astype(np.uint8), cv2.COLOR_BGR2YCrCb)[:,:,0]
+y_final = bgr_to_ycrcb(result.astype(np.float64))[:,:,0]
 
+
+# Visualisasi
 
 plt.figure(figsize=(18,10))
 
 # IMAGE
 plt.subplot(3,5,1)
 plt.title("Original")
-plt.imshow(cv2.cvtColor(img.astype(np.uint8), cv2.COLOR_BGR2RGB))
+plt.imshow(img[:,:,::-1].astype(np.uint8))
 plt.axis('off')
 
 plt.subplot(3,5,2)
 plt.title("Median")
-plt.imshow(cv2.cvtColor(denoise1.astype(np.uint8), cv2.COLOR_BGR2RGB))
+plt.imshow(denoise1[:,:,::-1].astype(np.uint8))
 plt.axis('off')
 
 plt.subplot(3,5,3)
 plt.title("Gaussian")
-plt.imshow(cv2.cvtColor(denoise2.astype(np.uint8), cv2.COLOR_BGR2RGB))
+plt.imshow(denoise2[:,:,::-1].astype(np.uint8))
 plt.axis('off')
 
 plt.subplot(3,5,4)
 plt.title("Hist Eq")
-plt.imshow(cv2.cvtColor(contrast.astype(np.uint8), cv2.COLOR_BGR2RGB))
+plt.imshow(contrast[:,:,::-1])
 plt.axis('off')
 
 plt.subplot(3,5,5)
 plt.title("Final")
-plt.imshow(cv2.cvtColor(result.astype(np.uint8), cv2.COLOR_BGR2RGB))
+plt.imshow(result[:,:,::-1])
 plt.axis('off')
 
 # HISTOGRAM
@@ -183,4 +220,4 @@ plt.tight_layout()
 plt.show()
 
 
-cv2.imwrite('output_ycbcr/hasil_restorasi_YCbCr.png', result.astype(np.uint8))
+cv2.imwrite('output_ycbcr/hasil_restorasi_YCbCr.png', result)
