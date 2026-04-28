@@ -47,8 +47,8 @@ Input → Median → Gaussian → Histogram Equalization → Sharpening → Outp
 ## 3.1 Sebelum dan Sesudah Restorasi
 
 Pada bagian ini ditampilkan perbandingan antara citra awal yang rusak dengan hasil restorasi menggunakan dua metode histogram equalization.
-| Citra Noisy (Input) | Restored (HEQ BGR) | Restored (HEQ YCbCr) | Citra Original |
-|--------------------|-------------------|----------------------|----------------|
-| ![](input/lena_noise.png) | ![](output/hasil_restorasi_BGR.png) | ![](output-YCbCr/hasil_restorasi.png) | ![](input/lena_original.png) |
+| Citra Noisy (Input) | Restored (HEQ BGR) | Restored (HEQ YCbCr) |
+|--------------------|-------------------|----------------------|
+| ![](input/lena_noise.png) | ![](output/hasil_restorasi_BGR.png) | ![](output/hasil_restorasi_YCbCr.png) |
 
 
