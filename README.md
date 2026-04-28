@@ -47,7 +47,7 @@ Berdasarkan permasalahan di atas, tujuan utama restorasi citra adalah:
 | Tahap | Teknik | Apa yang Dilakukan | Alasan Dipilih | Dampak |
 |------|--------|------------------|---------------|--------|
 | 1 | Median Filter | Mengganti nilai piksel dengan median dari tetangganya dalam kernel | Efektif menghilangkan salt-and-pepper noise tanpa merusak edge | Noise impuls hilang, struktur objek tetap |
-| 2 | Gaussian Filter | Melakukan smoothing menggunakan kernel Gaussian berbobot | Mengurangi Gaussian noise (noise halus) | Citra lebih halus, noise berkurang |
+| 2 | Gaussian Filter | Menghaluskan citra dengan cara melakukan rata-rata berbobot berdasarkan jarak piksel menggunakan distribusi Gaussian | Mengurangi Gaussian noise (noise halus) | Citra lebih halus, noise berkurang |
 | 3A | HEQ (YCbCr) | Equalization hanya pada channel Y (luminance) | Memperbaiki kontras tanpa mengubah warna | Kontras naik, warna tetap natural |
 | 3B | HEQ (BGR) | Equalization pada tiap channel warna secara terpisah | Meningkatkan kontras lebih agresif | Kontras tinggi, namun warna bisa berubah |
 | 4 | Unsharp Masking | Meningkatkan komponen frekuensi tinggi (detail dan edge) | Mengembalikan detail yang hilang akibat blur | Edge dan detail menjadi lebih tajam |
