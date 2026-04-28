@@ -52,60 +52,63 @@ Berikut perbandingan antara citra awal yang rusak dengan hasil restorasi menggun
 | ![](input/lena.png) | ![](output/hasil_restorasi_BGR.png) | ![](output/hasil_restorasi_YCbCr.png) |
 
 ## 3.2 Perbandingan Tahap Pipeline
-
 ## 3.2.1 Pipeline dengan HEQ YCbCr
 ![](output/hasil_V1.png)
 
-# Analisis
+# Analisis Gambar
 
-- Pada tahap **citra awal (original)**, gambar mengandung noise (Gaussian dan salt-and-pepper), blur, serta kontras rendah sehingga detail kurang terlihat.  
-  Histogram sempit dan terpusat di intensitas tengah → menandakan distribusi intensitas belum merata (low contrast).
+- **Original**: Citra mengandung noise (Gaussian & salt-pepper), blur, dan kontras rendah sehingga detail kurang jelas.  
+- **Median Filter**: Noise salt-and-pepper berkurang tanpa merusak bentuk objek.  
+- **Gaussian Filter**: Noise halus berkurang, citra lebih bersih, namun sedikit blur.  
+- **Histogram Equalization (YCbCr)**: Kontras meningkat signifikan, detail lebih terlihat, warna tetap natural.  
+- **Sharpening**: Tepi dan tekstur menjadi lebih tajam, menghasilkan citra yang jelas dan seimbang.  
 
-- Setelah **median filter**, salt-and-pepper noise berkurang signifikan tanpa merusak struktur objek. Noise ekstrem (piksel 0 dan 255) mulai hilang.  
-  Histogram menjadi lebih halus dan spike di nilai ekstrem berkurang → distribusi lebih stabil.
+Pipeline ini menghasilkan citra yang bersih, tajam, dan tetap natural.
 
-- Pada tahap **Gaussian filter**, noise halus semakin berkurang dan citra terlihat lebih bersih, meskipun sedikit lebih blur.  
-  Histogram semakin smooth, menunjukkan variasi kecil (noise) berkurang → kualitas distribusi meningkat.
+---
 
-- Pada tahap **histogram equalization (YCbCr - channel Y)**, kontras meningkat signifikan karena distribusi intensitas melebar ke seluruh rentang 0–255. Warna tetap natural karena hanya luminance yang diproses.  
-  Histogram menjadi lebih merata → peningkatan kontras global yang seimbang.
+# Analisis Histogram
 
-- Pada tahap **sharpening**, detail dan tepi objek kembali tajam tanpa merusak warna.  
-  Histogram menunjukkan peningkatan pada area gelap dan terang secara seimbang → peningkatan kontras lokal tanpa membuat distribusi ekstrem.
+- **Original**: Histogram sempit dan terpusat di tengah → kontras rendah.  
+- **Median Filter**: Spike ekstrem berkurang → noise impuls berhasil dihilangkan.  
+- **Gaussian Filter**: Histogram lebih halus → noise frekuensi tinggi berkurang.  
+- **Histogram Equalization (YCbCr)**: Histogram melebar merata ke 0–255 → kontras global meningkat secara seimbang.  
+- **Sharpening**: Peningkatan pada area gelap dan terang → kontras lokal meningkat tanpa distribusi menjadi ekstrem.  
 
-Secara keseluruhan, pipeline YCbCr meningkatkan kualitas citra secara bertahap: dari distribusi sempit → stabil → merata → tajam, dengan hasil yang tetap natural.
+Distribusi intensitas menjadi lebih merata dan stabil.
 
 ---
 
 ## 3.2.2 Pipeline dengan HEQ BGR
 ![](output/hasil_V2.png)
 
-# Analisis
+# Analisis Gambar
 
-- Pada tahap **citra awal (original)**, citra memiliki noise tinggi, blur, dan kontras rendah sehingga detail sulit dikenali.  
-  Histogram sempit dan terpusat di tengah → menunjukkan kontras rendah.
+- **Original**: Citra noisy, blur, dan kontras rendah sehingga detail sulit dikenali.  
+- **Median Filter**: Noise impuls berkurang, struktur tetap terjaga.  
+- **Gaussian Filter**: Noise halus berkurang, citra lebih smooth namun sedikit blur.  
+- **Histogram Equalization (BGR)**: Kontras meningkat lebih kuat, detail lebih menonjol, tetapi warna mulai berubah.  
+- **Sharpening**: Citra sangat tajam dan kontras tinggi, namun terlihat kurang natural.  
 
-- Setelah **median filter**, salt-and-pepper noise berkurang dan citra lebih bersih tanpa merusak bentuk objek.  
-  Histogram menjadi lebih halus, spike ekstrem berkurang → distribusi mulai stabil.
+Pipeline ini menghasilkan citra yang tajam dan kontras tinggi, tetapi warna kurang stabil.
 
-- Pada tahap **Gaussian filter**, noise halus berkurang dan citra menjadi lebih smooth, meskipun sedikit blur.  
-  Histogram semakin smooth → noise berkurang, tetapi kontras belum meningkat.
+---
 
-- Pada tahap **histogram equalization (BGR)**, kontras meningkat lebih agresif karena tiap channel diproses terpisah. Detail menjadi lebih menonjol, tetapi warna mulai berubah.  
-  Histogram tiap channel melebar secara tidak seimbang → menyebabkan distorsi warna.
+# Analisis Histogram
 
-- Pada tahap **sharpening**, citra menjadi sangat tajam dan kontras tinggi. Namun, peningkatan ini cenderung berlebihan dan dapat memperkuat noise yang tersisa.  
-  Histogram menunjukkan spike kuat di 0 dan 255 → distribusi menjadi lebih ekstrem.
+- **Original**: Histogram sempit → intensitas terkonsentrasi di mid-range.  
+- **Median Filter**: Spike ekstrem berkurang → noise salt-pepper hilang.  
+- **Gaussian Filter**: Histogram lebih smooth → noise halus berkurang.  
+- **Histogram Equalization (BGR)**: Histogram tiap channel melebar sendiri → distribusi tidak seimbang antar channel.  
+- **Sharpening**: Spike kuat di 0 dan 255 → kontras meningkat secara agresif.  
 
-Secara keseluruhan, pipeline BGR meningkatkan kontras dan ketajaman secara lebih kuat, tetapi distribusi histogram menjadi kurang stabil sehingga warna terlihat kurang natural.
+Distribusi intensitas menjadi lebih ekstrem dibanding YCbCr.
 
-## Kesimpulan Analisis Pipeline
+---
 
+##  Kesimpulan Perbandingan
 Dari kedua pipeline tersebut, dapat disimpulkan bahwa:
+- Pipeline **YCbCr** menghasilkan citra yang lebih natural dan seimbang, karena hanya memperbaiki luminance tanpa mengganggu warna. Distribusi histogram lebih stabil, hasil natural  
+- Pipeline **BGR** menghasilkan citra yang lebih kontras dan tajam, tetapi berisiko menimbulkan distorsi warna dan peningkatan yang berlebihan pada kontras dan detail. Distribusi lebih agresif, kontras tinggi tetapi kurang natural  
 
-- Pipeline **YCbCr** menghasilkan citra yang lebih natural dan seimbang, karena hanya memperbaiki luminance tanpa mengganggu warna.
-- Pipeline **BGR** menghasilkan citra yang lebih kontras dan tajam, tetapi berisiko menimbulkan distorsi warna dan peningkatan yang berlebihan pada kontras dan detail.
-- Pemilihan metode tergantung kebutuhan:
-  - Untuk hasil realistis → YCbCr lebih baik  
-  - Untuk visual yang lebih “menonjol” → BGR bisa digunakan
 
