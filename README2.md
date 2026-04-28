@@ -58,15 +58,22 @@ Berikut perbandingan antara citra awal yang rusak dengan hasil restorasi menggun
 
 # Analisis
 
-- Pada tahap **citra awal (original)**, terlihat bahwa gambar mengalami beberapa degradasi sekaligus. Noise cukup dominan, baik berupa bintik halus (Gaussian noise) maupun titik ekstrem hitam-putih (salt-and-pepper). Selain itu, citra juga tampak blur sehingga detail seperti tepi objek dan tekstur menjadi kurang jelas. Ditambah lagi, kontras yang rendah membuat perbedaan antara area terang dan gelap tidak terlalu terlihat.
+- Pada tahap **citra awal (original)**, gambar mengandung noise (Gaussian dan salt-and-pepper), blur, serta kontras rendah sehingga detail kurang terlihat.  
+  Histogram sempit dan terpusat di intensitas tengah → menandakan distribusi intensitas belum merata (low contrast).
 
-- Setelah melalui **median filter**, perubahan paling terlihat adalah berkurangnya salt-and-pepper noise. Titik-titik hitam dan putih yang sebelumnya mengganggu mulai hilang. Kelebihan dari median filter terlihat di sini, yaitu mampu menghilangkan noise impuls tanpa merusak bentuk objek. Struktur wajah dan tepi utama tetap terjaga, meskipun masih terdapat noise halus.
+- Setelah **median filter**, salt-and-pepper noise berkurang signifikan tanpa merusak struktur objek. Noise ekstrem (piksel 0 dan 255) mulai hilang.  
+  Histogram menjadi lebih halus dan spike di nilai ekstrem berkurang → distribusi lebih stabil.
 
-- Pada tahap **Gaussian filter**, noise halus yang sebelumnya masih tersisa mulai berkurang. Citra terlihat lebih halus dan bersih dibandingkan sebelumnya. Namun, efek sampingnya adalah gambar menjadi sedikit lebih blur karena Gaussian filter meratakan nilai piksel di sekitarnya. Jadi pada tahap ini, noise berkurang cukup signifikan, tetapi ketajaman detail sedikit menurun.
+- Pada tahap **Gaussian filter**, noise halus semakin berkurang dan citra terlihat lebih bersih, meskipun sedikit lebih blur.  
+  Histogram semakin smooth, menunjukkan variasi kecil (noise) berkurang → kualitas distribusi meningkat.
 
-- Ketika masuk ke tahap **histogram equalization pada channel Y (YCbCr)**, perubahan kontras menjadi sangat jelas. Distribusi intensitas yang sebelumnya sempit menjadi lebih lebar, sehingga perbedaan antara area terang dan gelap lebih terlihat. Karena hanya channel luminance yang diubah, warna pada citra tetap terlihat natural dan tidak mengalami distorsi. Ini membuat gambar terlihat lebih jelas tanpa mengubah karakter warna aslinya.
+- Pada tahap **histogram equalization (YCbCr - channel Y)**, kontras meningkat signifikan karena distribusi intensitas melebar ke seluruh rentang 0–255. Warna tetap natural karena hanya luminance yang diproses.  
+  Histogram menjadi lebih merata → peningkatan kontras global yang seimbang.
 
-- Pada tahap akhir yaitu **sharpening (unsharp masking)**, detail yang sebelumnya hilang akibat blur mulai kembali. Tepi objek menjadi lebih tegas dan tekstur lebih terlihat. Proses ini bekerja dengan menambahkan kembali komponen detail ke citra. Hasil akhirnya adalah citra yang lebih tajam, dengan kontras yang sudah baik dan warna yang tetap natural. Secara keseluruhan, pipeline YCbCr menghasilkan restorasi yang seimbang antara pengurangan noise, peningkatan kontras, dan ketajaman.
+- Pada tahap **sharpening**, detail dan tepi objek kembali tajam tanpa merusak warna.  
+  Histogram menunjukkan peningkatan pada area gelap dan terang secara seimbang → peningkatan kontras lokal tanpa membuat distribusi ekstrem.
+
+Secara keseluruhan, pipeline YCbCr meningkatkan kualitas citra secara bertahap: dari distribusi sempit → stabil → merata → tajam, dengan hasil yang tetap natural.
 
 ---
 
@@ -75,17 +82,22 @@ Berikut perbandingan antara citra awal yang rusak dengan hasil restorasi menggun
 
 # Analisis
 
-- Pada tahap **citra awal (original)**, kondisi yang terlihat sama seperti sebelumnya, yaitu citra memiliki noise tinggi, blur, dan kontras rendah. Detail objek sulit dikenali karena kombinasi dari noise dan rendahnya kontras.
+- Pada tahap **citra awal (original)**, citra memiliki noise tinggi, blur, dan kontras rendah sehingga detail sulit dikenali.  
+  Histogram sempit dan terpusat di tengah → menunjukkan kontras rendah.
 
-- Setelah **median filter**, salt-and-pepper noise berkurang secara signifikan. Titik-titik ekstrem mulai hilang dan citra terlihat lebih bersih. Seperti pada pipeline sebelumnya, median filter tetap menjaga bentuk objek sehingga tidak terjadi distorsi pada struktur utama gambar.
+- Setelah **median filter**, salt-and-pepper noise berkurang dan citra lebih bersih tanpa merusak bentuk objek.  
+  Histogram menjadi lebih halus, spike ekstrem berkurang → distribusi mulai stabil.
 
-- Pada tahap **Gaussian filter**, noise halus semakin berkurang dan citra menjadi lebih smooth. Namun, seperti sebelumnya, efek blur sedikit meningkat karena proses smoothing. Pada titik ini, citra sudah cukup bersih dari noise, tetapi masih kurang tajam.
+- Pada tahap **Gaussian filter**, noise halus berkurang dan citra menjadi lebih smooth, meskipun sedikit blur.  
+  Histogram semakin smooth → noise berkurang, tetapi kontras belum meningkat.
 
-- Perubahan besar mulai terlihat pada tahap **histogram equalization per-channel (BGR)**. Karena equalization dilakukan pada masing-masing channel warna secara terpisah, kontras meningkat secara lebih agresif dibandingkan metode YCbCr. Detail menjadi lebih menonjol, namun efek sampingnya adalah perubahan warna. Hubungan antar channel tidak lagi seimbang, sehingga warna bisa terlihat tidak natural atau terlalu mencolok (over-saturated).
+- Pada tahap **histogram equalization (BGR)**, kontras meningkat lebih agresif karena tiap channel diproses terpisah. Detail menjadi lebih menonjol, tetapi warna mulai berubah.  
+  Histogram tiap channel melebar secara tidak seimbang → menyebabkan distorsi warna.
 
-- Pada tahap **sharpening (unsharp masking)**, ketajaman citra semakin meningkat. Tepi objek menjadi sangat jelas dan detail terlihat lebih “keluar”. Namun, karena sebelumnya kontras sudah tinggi akibat HEQ BGR, proses sharpening dapat membuat citra menjadi terlalu tajam. Selain itu, noise yang masih tersisa juga bisa ikut diperkuat. Akibatnya, hasil akhir memang terlihat sangat kontras dan tajam, tetapi kurang natural dibandingkan metode YCbCr.
+- Pada tahap **sharpening**, citra menjadi sangat tajam dan kontras tinggi. Namun, peningkatan ini cenderung berlebihan dan dapat memperkuat noise yang tersisa.  
+  Histogram menunjukkan spike kuat di 0 dan 255 → distribusi menjadi lebih ekstrem.
 
----
+Secara keseluruhan, pipeline BGR meningkatkan kontras dan ketajaman secara lebih kuat, tetapi distribusi histogram menjadi kurang stabil sehingga warna terlihat kurang natural.
 
 ## Kesimpulan Analisis Pipeline
 
